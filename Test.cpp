@@ -4,6 +4,7 @@
 #include "Vertex.hpp"
 #include "Edge.hpp"
 #include "Hexagon.hpp"
+#include "Board.hpp"
 
 #include <string>
 #include <memory>
@@ -109,4 +110,9 @@ TEST_CASE("check get_hexagon()")
     {
         cout << ptr.get()->get_id() <<endl;
     }
+}
+
+TEST_CASE("check board constructor")
+{
+    shared_ptr<Board> board = Board::get_instance();
 }

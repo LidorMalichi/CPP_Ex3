@@ -2,7 +2,7 @@
 
 unordered_map<int, shared_ptr<Hexagon>> Hexagon::hexagon_map;
 
-Hexagon::Hexagon(int id):id(id)
+Hexagon::Hexagon(int id, int board_id, shared_ptr<Tile> tile):id(id), board_id(board_id), tile(tile)
 {
     if(id < 1 || id > 19)
     {
@@ -27,13 +27,29 @@ Hexagon::Hexagon(int id):id(id)
             if(i != 4)
             {
                 string edge_id = to_string(current_id) + "-" + to_string(current_id + 1);
-                this->edges.push_back(Edge::get_edge(edge_id));
+                string edge_form;
+                switch (i)
+                {
+                case 0:
+                    edge_form = "/ ";
+                    break;
+                case 1:
+                    edge_form = " \\";
+                    break;
+                case 2:
+                    edge_form = " \\";
+                    break;
+                case 3:
+                    edge_form = "/ ";
+                    break;
+                }
+                this->edges.push_back(Edge::get_edge(edge_id, edge_form));
         
             }
             if(i == 0 || i == 4)
             {
                 string edge_id = to_string(current_id) + "-" + to_string(current_id + 8);
-                this->edges.push_back(Edge::get_edge(edge_id));
+                this->edges.push_back(Edge::get_edge(edge_id, "||"));
             }
         }
     }
@@ -56,13 +72,29 @@ Hexagon::Hexagon(int id):id(id)
             if(i != 4)
             {
                 string edge_id = to_string(current_id) + "-" + to_string(current_id + 1);
-                this->edges.push_back(Edge::get_edge(edge_id));
+                string edge_form;
+                switch (i)
+                {
+                case 0:
+                    edge_form = "/ ";
+                    break;
+                case 1:
+                    edge_form = " \\";
+                    break;
+                case 2:
+                    edge_form = " \\";
+                    break;
+                case 3:
+                    edge_form = "/ ";
+                    break;
+                }
+                this->edges.push_back(Edge::get_edge(edge_id, edge_form));
         
             }
             if(i == 0 || i == 4)
             {
                 string edge_id = to_string(current_id) + "-" + to_string(current_id + 10);
-                this->edges.push_back(Edge::get_edge(edge_id));
+                this->edges.push_back(Edge::get_edge(edge_id, "||"));
             }
         }
     }
@@ -85,13 +117,29 @@ Hexagon::Hexagon(int id):id(id)
             if(i != 4)
             {
                 string edge_id = to_string(current_id) + "-" + to_string(current_id + 1);
-                this->edges.push_back(Edge::get_edge(edge_id));
+                string edge_form;
+                switch (i)
+                {
+                case 0:
+                    edge_form = "/ ";
+                    break;
+                case 1:
+                    edge_form = " \\";
+                    break;
+                case 2:
+                    edge_form = " \\";
+                    break;
+                case 3:
+                    edge_form = "/ ";
+                    break;
+                }
+                this->edges.push_back(Edge::get_edge(edge_id, edge_form));
         
             }
             if(i == 0 || i == 4)
             {
                 string edge_id = to_string(current_id) + "-" + to_string(current_id + 11);
-                this->edges.push_back(Edge::get_edge(edge_id));
+                this->edges.push_back(Edge::get_edge(edge_id, "||"));
             }
         }
     }
@@ -114,13 +162,29 @@ Hexagon::Hexagon(int id):id(id)
             if(i != 4)
             {
                 string edge_id = to_string(current_id) + "-" + to_string(current_id + 1);
-                this->edges.push_back(Edge::get_edge(edge_id));
+                string edge_form;
+                switch (i)
+                {
+                case 0:
+                    edge_form = "/ ";
+                    break;
+                case 1:
+                    edge_form = " \\";
+                    break;
+                case 2:
+                    edge_form = " \\";
+                    break;
+                case 3:
+                    edge_form = "/ ";
+                    break;
+                }
+                this->edges.push_back(Edge::get_edge(edge_id, edge_form));
         
             }
             if(i == 0 || i == 4)
             {
                 string edge_id = to_string(current_id) + "-" + to_string(current_id + 10);
-                this->edges.push_back(Edge::get_edge(edge_id));
+                this->edges.push_back(Edge::get_edge(edge_id, "||"));
             }
         }
     }
@@ -143,28 +207,44 @@ Hexagon::Hexagon(int id):id(id)
             if(i != 4)
             {
                 string edge_id = to_string(current_id) + "-" + to_string(current_id + 1);
-                this->edges.push_back(Edge::get_edge(edge_id));
+                string edge_form;
+                switch (i)
+                {
+                case 0:
+                    edge_form = "/ ";
+                    break;
+                case 1:
+                    edge_form = " \\";
+                    break;
+                case 2:
+                    edge_form = " \\";
+                    break;
+                case 3:
+                    edge_form = "/ ";
+                    break;
+                }
+                this->edges.push_back(Edge::get_edge(edge_id, edge_form));
         
             }
             if(i == 0 || i == 4)
             {
                 string edge_id = to_string(current_id) + "-" + to_string(current_id + 8);
-                this->edges.push_back(Edge::get_edge(edge_id));
+                this->edges.push_back(Edge::get_edge(edge_id, "||"));
             }
         }
     }
 }
 
-shared_ptr<Hexagon> Hexagon::get_hexagon(int id)
+shared_ptr<Hexagon> Hexagon::get_hexagon(int id, int board_id, shared_ptr<Tile> tile)
 {
     if(id >= 1 && id <= 19){
         struct MakeSharedEnabler : public Hexagon {
-            MakeSharedEnabler(int id) : Hexagon(id){}
+            MakeSharedEnabler(int id, int board_id, shared_ptr<Tile> tile) : Hexagon(id, board_id, tile){}
         };
 
         if(hexagon_map.find(id) == hexagon_map.end())
         {
-            hexagon_map[id] = make_shared<MakeSharedEnabler>(id);
+            hexagon_map[id] = make_shared<MakeSharedEnabler>(id, board_id, tile);
         }
         return hexagon_map[id];
     }

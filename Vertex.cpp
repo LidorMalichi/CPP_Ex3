@@ -22,3 +22,10 @@ void Vertex::add_adjacent(shared_ptr<Vertex> adj_vertex)
 {
     this->adjacent_vertices.push_back(adj_vertex);
 }
+
+ostream& operator<<(ostream& os, const Vertex& vertex)
+{
+    if(vertex.id < 10){os << "0" ;}
+    os << to_string(vertex.id);
+    return os;
+}

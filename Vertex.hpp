@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <unordered_map>
+#include <iostream>
 #include <memory>
 
 using namespace std;
@@ -25,6 +26,8 @@ class Vertex{
         void add_adjacent(shared_ptr<Vertex> adj_vertex);
 
         int get_id(){return this->id;}
+
+        friend ostream& operator<<(ostream& os, const Vertex& vertex);
 
 };
 

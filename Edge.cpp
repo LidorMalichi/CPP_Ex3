@@ -2,7 +2,7 @@
 
 unordered_map<string, shared_ptr<Edge>> Edge::edge_map;
 
-Edge::Edge(const string id): id(id)
+Edge::Edge(const string id, const string form): id(id), form(form)
 {
     size_t seperator = id.find('-');
         if (seperator == string::npos) {
@@ -19,15 +19,21 @@ Edge::Edge(const string id): id(id)
         vertices[1].get()->add_adjacent(vertices[0]);
 }
 
-shared_ptr<Edge> Edge::get_edge(const string id)
+shared_ptr<Edge> Edge::get_edge(const string id, const string form)
 {
     struct MakeSharedEnabler : public Edge {
-                MakeSharedEnabler(const string id) : Edge(id){}
+                MakeSharedEnabler(const string id, const string form) : Edge(id, form){}
             };
 
     if(edge_map.find(id) == edge_map.end())
     {
-        edge_map[id] = make_shared<MakeSharedEnabler>(id);
+        edge_map[id] = make_shared<MakeSharedEnabler>(id, form);
     }
     return edge_map[id];
+}
+
+ostream &operator<<(ostream &os, const Edge &edge)
+{
+    os << edge.form;
+    return os;
 }

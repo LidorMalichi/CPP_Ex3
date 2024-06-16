@@ -2,6 +2,10 @@
 #define BOARD_H
 
 #include <memory>
+#include <vector>
+#include <algorithm>
+#include <random>
+#include <list>
 #include "Vertex.hpp"
 #include "Edge.hpp"
 #include "Hexagon.hpp"
@@ -14,6 +18,8 @@ class Board
     private:
 
         static shared_ptr<Board> instance;
+
+        unordered_map<int, list<shared_ptr<Hexagon>>> layout;
 
         Board();
 
@@ -32,6 +38,7 @@ class Board
             return instance;
         }
         
+        friend ostream& operator<<(ostream& os, const Board& board);
 };
 
 
