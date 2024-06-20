@@ -1,75 +1,81 @@
 #ifndef CARD_HPP
 #define CARD_HPP
 
-enum resource{
-    WOOD,
-    BRICKS,
-    WOOL,
-    GRAIN,
-    ORE
+#include <string>
+#include <vector>
+#include <memory>
+
+using namespace std;
+
+enum dev_type{
+    PROMO,
+    KNIGHT,
+    VICTORY
 };
 
-class ResourceCard {
-    
+class DevCard
+{
     public:
+
+        virtual int development_type() const = 0;
+
+        virtual ~DevCard() = default;
+};
+
+class PromoCard : public DevCard
+{
+    private:
+
+        string promo_type;
+
+    public:
+
+        int develoopment_type(){return PROMO;}
+
+        string get_promo_type(){return promo_type;}
+}; 
+
+class Knight : public DevCard
+{
+    int develoopment_type(){return KNIGHT;}
+};
+
+
+class Victory : public DevCard
+{
+    int develoopment_type(){return VICTORY;}
+};
+
+class Deck
+{
+    private:
+        static unique_ptr<Deck> deck;
+
+        vector<unique_ptr<DevCard>> cards;
+
+        Deck();
+
         
-        virtual int resource_type() const = 0;
-
-        virtual ~ResourceCard() = default;
-};
-
-class Wood: public ResourceCard{
-
     public:
 
-        int resource_type() const override{
-            return WOOD;
+        static unique_ptr<Deck> get_deck()
+        {
+            struct MakeUniqueEnabler : public Deck {
+                MakeUniqueEnabler() : Deck(){}
+            };
+            if(!deck)
+            {
+                deck = make_unique<MakeUniqueEnabler>();
+            }
+            return move(deck);
         }
 
-        ~Wood() {}
+        unique_ptr<DevCard> draw_card()
+        {
+            unique_ptr<DevCard> card = move(cards.back());
+            cards.pop_back();
+            return card;
+        }        
 };
 
-class Bricks: public ResourceCard{
-
-    public:
-
-        int resource_type() const override{
-            return BRICKS;
-        }
-
-        ~Bricks() {}
-};
-
-class Wool: public ResourceCard{
-
-    public:
-
-        int resource_type() const override{
-            return WOOL;
-        }
-
-        ~Wool() {}
-};
-
-class Grain: public ResourceCard{
-
-    public:
-
-        int resource_type() const override{
-            return GRAIN;
-        }
-
-        ~Grain() {}
-};
-
-class Ore: public ResourceCard{
-
-    public:
-
-        int resource_type() const override{
-            return ORE;
-        }
-
-        ~Ore() {}
-};
 #endif

@@ -237,6 +237,7 @@ Hexagon::Hexagon(int id, int board_id, shared_ptr<Tile> tile):id(id), board_id(b
 
 shared_ptr<Hexagon> Hexagon::get_hexagon(int id, int board_id, shared_ptr<Tile> tile)
 {
+    
     if(id >= 1 && id <= 19){
         struct MakeSharedEnabler : public Hexagon {
             MakeSharedEnabler(int id, int board_id, shared_ptr<Tile> tile) : Hexagon(id, board_id, tile){}
@@ -249,4 +250,12 @@ shared_ptr<Hexagon> Hexagon::get_hexagon(int id, int board_id, shared_ptr<Tile> 
         return hexagon_map[id];
     }
     return nullptr;
+}
+
+ostream &operator<<(ostream &os, const Hexagon &hexagon)
+{
+    os << hexagon.tile->land() << "(";
+    os << (hexagon.board_id > 9 ? to_string(hexagon.board_id) : "0" + to_string(hexagon.board_id));
+    os << ")";
+    return os;
 }

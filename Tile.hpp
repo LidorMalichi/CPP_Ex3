@@ -10,17 +10,46 @@
 
 using namespace std;
 
+enum resource{
+    WOOD,
+    BRICKS,
+    WOOL,
+    GRAIN,
+    ORE
+};
+
 class Tile{
 
     public:
         virtual string land() const = 0;
 
-        virtual ResourceCard* get_resource() const = 0;
+        virtual int get_resource() const = 0;
 
 
 };
 
-class Forest: public Tile{
+template <typename T>
+class SingletonTile : public Tile {
+public:
+    static shared_ptr<Tile> get_instance() {
+
+        struct MakeSharedEnabler : public T {
+            MakeSharedEnabler() : T(){}
+        };
+
+
+        static shared_ptr<T> instance = make_shared<MakeSharedEnabler>();;
+            
+        return instance;
+    }
+
+protected:
+    SingletonTile() {}
+};
+
+class Forest: public SingletonTile<Forest>{
+
+    friend class SingletonTile<Forest>;
 
     public:
 
@@ -28,30 +57,17 @@ class Forest: public Tile{
             return "Fors";
         }
 
-        ResourceCard* get_resource() const override{
-            return new Wood();
-        }
-
-        static shared_ptr<Tile> get_instance()
-        {
-            struct MakeSharedEnabler : public Forest {
-                MakeSharedEnabler() : Forest(){}
-            };
-
-            if(!instance)
-            {
-                instance = make_shared<MakeSharedEnabler>();
-            }
-            return instance;
+        int get_resource() const override{
+            return WOOD;
         }
 
     private:
         Forest(){}
-
-        static shared_ptr<Tile> instance;
 };
 
-class Hills: public Tile{
+class Hills: public SingletonTile<Hills>{
+
+    friend class SingletonTile<Hills>;
 
     public:
 
@@ -59,30 +75,17 @@ class Hills: public Tile{
             return "Hils";
         }
 
-        ResourceCard* get_resource() const override{
-            return new Bricks();
-        }
-
-        static shared_ptr<Tile> get_instance()
-        {
-            struct MakeSharedEnabler : public Hills {
-                MakeSharedEnabler() : Hills(){}
-            };
-
-            if(!instance)
-            {
-                instance = make_shared<MakeSharedEnabler>();
-            }
-            return instance;
+        int get_resource() const override{
+            return BRICKS;
         }
 
     private:
         Hills(){}
-
-        static shared_ptr<Tile> instance;
 };
 
-class Pasture: public Tile{
+class Pasture: public SingletonTile<Pasture>{
+
+    friend class SingletonTile<Pasture>;
 
     public:
 
@@ -90,30 +93,17 @@ class Pasture: public Tile{
             return "Past";
         }
 
-        ResourceCard* get_resource() const override{
-            return new Wool();
-        }
-
-        static shared_ptr<Tile> get_instance()
-        {
-            struct MakeSharedEnabler : public Pasture {
-                MakeSharedEnabler() : Pasture(){}
-            };
-
-            if(!instance)
-            {
-                instance = make_shared<MakeSharedEnabler>();
-            }
-            return instance;
+        int get_resource() const override{
+            return WOOL;
         }
 
     private:
         Pasture(){}
-
-        static shared_ptr<Tile> instance;
 };
 
-class Fields: public Tile{
+class Fields: public SingletonTile<Fields>{
+
+    friend class SingletonTile<Fields>;
 
     public:
 
@@ -121,30 +111,17 @@ class Fields: public Tile{
             return "Flds";
         }
 
-        ResourceCard* get_resource() const override{
-            return new Grain();
-        }
-
-        static shared_ptr<Tile> get_instance()
-        {
-            struct MakeSharedEnabler : public Fields {
-                MakeSharedEnabler() : Fields(){}
-            };
-
-            if(!instance)
-            {
-                instance = make_shared<MakeSharedEnabler>();
-            }
-            return instance;
+        int get_resource() const override{
+            return GRAIN;
         }
 
     private:
         Fields(){}
-
-        static shared_ptr<Tile> instance;
 };
 
-class Mountains: public Tile{
+class Mountains: public SingletonTile<Mountains>{
+
+    friend class SingletonTile<Mountains>;
 
     public:
 
@@ -152,30 +129,18 @@ class Mountains: public Tile{
             return "Mout";
         }
 
-        ResourceCard* get_resource() const override{
-            return new Ore();
-        }
-
-        static shared_ptr<Tile> get_instance()
-        {
-            struct MakeSharedEnabler : public Mountains {
-                MakeSharedEnabler() : Mountains(){}
-            };
-
-            if(!instance)
-            {
-                instance = make_shared<MakeSharedEnabler>();
-            }
-            return instance;
+        int get_resource() const override{
+            return ORE;
         }
 
     private:
         Mountains(){}
-
-        static shared_ptr<Tile> instance;
 };
 
-class Desert: public Tile{ 
+class Desert: public SingletonTile<Desert>{ 
+
+    friend class SingletonTile<Desert>;
+
 
     public:
 
@@ -183,27 +148,12 @@ class Desert: public Tile{
             return "Dsrt";
         }
 
-        ResourceCard* get_resource() const override{
-            return nullptr;
-        }
-
-        static shared_ptr<Tile> get_instance()
-        {
-            struct MakeSharedEnabler : public Desert {
-                MakeSharedEnabler() : Desert(){}
-            };
-
-            if(!instance)
-            {
-                instance = make_shared<MakeSharedEnabler>();
-            }
-            return instance;
+        int get_resource() const override{
+            return -1;
         }
 
     private:
         Desert(){}
-
-        static shared_ptr<Tile> instance;
 };
 
 class TileFactory {

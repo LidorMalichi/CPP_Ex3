@@ -1,8 +1,8 @@
 CXX=clang++
-CXXFLAGS=-std=c++11 -Werror -Wsign-conversion -g
+CXXFLAGS=-std=c++17 -Werror -Wsign-conversion -g
 VALGRIND_FLAGS=-v --leak-check=full --show-leak-kinds=all  --error-exitcode=99
 
-SOURCES=Tile.hpp Card.hpp Vertex.hpp Edge.hpp Hexagon.hpp Board.hpp
+SOURCES=Tile.hpp Vertex.hpp Edge.hpp Hexagon.hpp Board.hpp
  
 OBJECTS := Test.o TestCounter.o Tile.cpp Edge.cpp Vertex.cpp Hexagon.cpp Board.cpp
 

@@ -6,6 +6,7 @@
 #include "Tile.hpp"
 #include "Card.hpp"
 #include <vector>
+#include <iostream>
 
 
 class Hexagon{
@@ -29,7 +30,7 @@ class Hexagon{
 
         vector<shared_ptr<Edge>> get_edges(){return this->edges;}
 
-
+        friend ostream& operator<<(ostream& os, const Hexagon& hexagon);
 
 };
 

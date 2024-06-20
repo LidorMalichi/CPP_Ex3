@@ -1,12 +1,5 @@
 #include "Tile.hpp"
 
-shared_ptr<Tile> Forest::instance;
-shared_ptr<Tile> Hills::instance;
-shared_ptr<Tile> Pasture::instance;
-shared_ptr<Tile> Fields::instance;
-shared_ptr<Tile> Mountains::instance;
-shared_ptr<Tile> Desert::instance;
-
 shared_ptr<Tile> TileFactory::get_tile(const string tile)
 {
     
