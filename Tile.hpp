@@ -5,25 +5,16 @@
 #include <unordered_map>
 #include <string>
 #include <memory>
-
-#include "Card.hpp"
+#include "General.hpp"
 
 using namespace std;
-
-enum resource{
-    WOOD,
-    BRICKS,
-    WOOL,
-    GRAIN,
-    ORE
-};
 
 class Tile{
 
     public:
         virtual string land() const = 0;
 
-        virtual int get_resource() const = 0;
+        virtual string get_resource() const = 0;
 
 
 };
@@ -57,8 +48,8 @@ class Forest: public SingletonTile<Forest>{
             return "Fors";
         }
 
-        int get_resource() const override{
-            return WOOD;
+        string get_resource() const override{
+            return "Wood";
         }
 
     private:
@@ -75,8 +66,8 @@ class Hills: public SingletonTile<Hills>{
             return "Hils";
         }
 
-        int get_resource() const override{
-            return BRICKS;
+        string get_resource() const override{
+            return "Bricks";
         }
 
     private:
@@ -93,8 +84,8 @@ class Pasture: public SingletonTile<Pasture>{
             return "Past";
         }
 
-        int get_resource() const override{
-            return WOOL;
+        string get_resource() const override{
+            return "Wool";
         }
 
     private:
@@ -111,8 +102,8 @@ class Fields: public SingletonTile<Fields>{
             return "Flds";
         }
 
-        int get_resource() const override{
-            return GRAIN;
+        string get_resource() const override{
+            return "Grain";
         }
 
     private:
@@ -129,8 +120,8 @@ class Mountains: public SingletonTile<Mountains>{
             return "Mout";
         }
 
-        int get_resource() const override{
-            return ORE;
+        string get_resource() const override{
+            return "Ore";
         }
 
     private:
@@ -148,8 +139,8 @@ class Desert: public SingletonTile<Desert>{
             return "Dsrt";
         }
 
-        int get_resource() const override{
-            return -1;
+        string get_resource() const override{
+            return "";
         }
 
     private:

@@ -23,9 +23,22 @@ void Vertex::add_adjacent(shared_ptr<Vertex> adj_vertex)
     this->adjacent_vertices.push_back(adj_vertex);
 }
 
-ostream& operator<<(ostream& os, const Vertex& vertex)
+int Vertex::build_settlement(int player_id, string color)
 {
-    if(vertex.id < 10){os << "0" ;}
-    os << to_string(vertex.id);
+    abode = make_unique<Settlement>(player_id);
+    this->color = color;
+    return (*abode).get_victory_points();
+}
+
+int Vertex::improve_settlement(int player_id)
+{
+    abode.reset();
+    abode = make_unique<City>(player_id);
+    return (*abode).get_victory_points();     
+}
+
+ostream& operator<<(ostream& os, const Vertex& vertex)
+{ 
+    os << vertex.color << vertex.description;
     return os;
 }

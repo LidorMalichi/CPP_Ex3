@@ -17,6 +17,8 @@ Edge::Edge(const string id, const string form): id(id), form(form)
 
         vertices[0].get()->add_adjacent(vertices[1]);
         vertices[1].get()->add_adjacent(vertices[0]);
+
+        color = "\033[0m";
 }
 
 shared_ptr<Edge> Edge::get_edge(const string id, const string form)
@@ -34,6 +36,6 @@ shared_ptr<Edge> Edge::get_edge(const string id, const string form)
 
 ostream &operator<<(ostream &os, const Edge &edge)
 {
-    os << edge.form;
+    os << edge.color << edge.form;
     return os;
 }

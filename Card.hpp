@@ -4,20 +4,16 @@
 #include <string>
 #include <vector>
 #include <memory>
+#include "General.hpp"
 
 using namespace std;
 
-enum dev_type{
-    PROMO,
-    KNIGHT,
-    VICTORY
-};
 
 class DevCard
 {
     public:
 
-        virtual int development_type() const = 0;
+        virtual string development_type() const = 0;
 
         virtual ~DevCard() = default;
 };
@@ -30,26 +26,28 @@ class PromoCard : public DevCard
 
     public:
 
-        int develoopment_type(){return PROMO;}
+        PromoCard(const string promo_type):promo_type(promo_type){};
+
+        string development_type() const override {return PROMO;}
 
         string get_promo_type(){return promo_type;}
 }; 
 
 class Knight : public DevCard
 {
-    int develoopment_type(){return KNIGHT;}
+    string development_type() const override {return KNIGHT;}
 };
 
 
 class Victory : public DevCard
 {
-    int develoopment_type(){return VICTORY;}
+    string development_type() const override {return VICTORY;}
 };
 
 class Deck
 {
     private:
-        static unique_ptr<Deck> deck;
+        static shared_ptr<Deck> deck;
 
         vector<unique_ptr<DevCard>> cards;
 
@@ -58,16 +56,16 @@ class Deck
         
     public:
 
-        static unique_ptr<Deck> get_deck()
+        static shared_ptr<Deck> get_deck()
         {
-            struct MakeUniqueEnabler : public Deck {
-                MakeUniqueEnabler() : Deck(){}
+            struct MakeSharedEnabler : public Deck {
+                MakeSharedEnabler() : Deck(){}
             };
             if(!deck)
             {
-                deck = make_unique<MakeUniqueEnabler>();
+                deck = make_shared<MakeSharedEnabler>();
             }
-            return move(deck);
+            return deck;
         }
 
         unique_ptr<DevCard> draw_card()
