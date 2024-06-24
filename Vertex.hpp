@@ -40,15 +40,15 @@ class Vertex{
 
         int get_id(){return this->id;}
 
-        bool has_settlement(){return abode != nullptr;}
+        bool has_settlement() const {return abode != nullptr;}
 
-        Abode& get_settlement(){return *abode;}
+        Abode& get_settlement() const {return *abode;}
 
         int build_settlement(int player_id, string color);
 
         int improve_settlement(int player_id);
 
-        vector<shared_ptr<Vertex>> get_adjacent(){this->adjacent_vertices;}
+        vector<shared_ptr<Vertex>> get_adjacent() const {return this->adjacent_vertices;}
 
         friend ostream& operator<<(ostream& os, const Vertex& vertex);
 

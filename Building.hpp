@@ -9,16 +9,16 @@ class Building
 {
     private:
 
-        int player_id;
+        size_t player_id;
         string name;
 
     public:
 
-        Building(int player_id, string name) : player_id(player_id), name(name){};
+        Building(size_t player_id, string name) : player_id(player_id), name(name){};
 
-        int get_player_id(){return player_id;}
+        const  size_t get_player_id(){return player_id;}
 
-        string get_name(){return name;}
+        const string get_name(){return name;}
 
 };
 
@@ -30,7 +30,7 @@ class Abode : public Building
 
     public:
 
-        Abode(int player_id, string name, int victory_points) : Building(player_id, name), victory_points(victory_points){};
+        Abode(size_t player_id, string name, int victory_points) : Building(player_id, name), victory_points(victory_points){};
 
         int get_victory_points(){return victory_points;}
 };
@@ -39,20 +39,20 @@ class Settlement : public Abode
 {
     public:
 
-        Settlement(int player_id) : Abode(player_id, "Settlement", 1){};
+        Settlement(size_t player_id) : Abode(player_id, "Settlement", 1){};
 };
 
 class City : public Abode
 {
     public:
 
-        City(int player_id) : Abode(player_id, "City", 2){};
+        City(size_t player_id) : Abode(player_id, "City", 2){};
 };
 
 class Road : public Building
 {
     public:
 
-        Road(int player_id) : Building(player_id, "Road"){};
+        Road(size_t player_id) : Building(player_id, "Road"){};
 };
 #endif

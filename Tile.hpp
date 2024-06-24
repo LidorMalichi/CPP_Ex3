@@ -45,11 +45,11 @@ class Forest: public SingletonTile<Forest>{
     public:
 
         string land() const override{
-            return "Fors";
+            return FOREST;
         }
 
         string get_resource() const override{
-            return "Wood";
+            return WOOD;
         }
 
     private:
@@ -63,11 +63,11 @@ class Hills: public SingletonTile<Hills>{
     public:
 
         string land() const override{
-            return "Hils";
+            return HILLS;
         }
 
         string get_resource() const override{
-            return "Bricks";
+            return BRICKS;
         }
 
     private:
@@ -81,11 +81,11 @@ class Pasture: public SingletonTile<Pasture>{
     public:
 
         string land() const override{
-            return "Past";
+            return PASTURE;
         }
 
         string get_resource() const override{
-            return "Wool";
+            return WOOL;
         }
 
     private:
@@ -99,11 +99,11 @@ class Fields: public SingletonTile<Fields>{
     public:
 
         string land() const override{
-            return "Flds";
+            return FIELDS;
         }
 
         string get_resource() const override{
-            return "Grain";
+            return GRAIN;
         }
 
     private:
@@ -117,11 +117,11 @@ class Mountains: public SingletonTile<Mountains>{
     public:
 
         string land() const override{
-            return "Mout";
+            return MOUNTAINS;
         }
 
         string get_resource() const override{
-            return "Ore";
+            return ORE;
         }
 
     private:
@@ -136,7 +136,7 @@ class Desert: public SingletonTile<Desert>{
     public:
 
         string land() const override{
-            return "Dsrt";
+            return DESERT;
         }
 
         string get_resource() const override{

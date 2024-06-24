@@ -16,11 +16,15 @@ class Player
 {
     private:
 
-        int id;
+        size_t id;
 
         string color;
 
         int points;
+
+        int activated_knights;
+
+        int num_of_resources;
 
         unordered_map<string, int> resources;
 
@@ -30,31 +34,33 @@ class Player
 
         static vector<shared_ptr<Player>> players;
 
-        Player(int id, string color, int points) : id(id), color(color), points(points)
+        Player(size_t id, string color, int points) : id(id), color(color), points(points)
         {
-            resources["Wood"] = 0;
-            resources["Bricks"] = 0;
-            resources["Wool"] = 0;
-            resources["Grain"] = 0;
+            resources["Wood"] = 4;
+            resources["Bricks"] = 4;
+            resources["Wool"] = 2;
+            resources["Grain"] = 2;
             resources["Ore"] = 0;
+            activated_knights = 0;
+            num_of_resources = 12;
         }
 
     public:
 
-        static shared_ptr<Player> get_player(int id, string color)
+        static shared_ptr<Player> get_player(size_t id, string color)
         {
             struct MakeSharedEnabler : public Player {
-                MakeSharedEnabler(int id, string color) : Player(id, color, 0){}
+                MakeSharedEnabler(size_t id, string color) : Player(id, color, 0){}
             };
 
             if(!players[id])
             {
-                players[id] = make_shared<MakeSharedEnabler>();
+                players[id] = make_shared<MakeSharedEnabler>(id, color);
             }
             return players[id];
         }
 
-        int get_id(){return this->id;}
+        size_t get_id(){return this->id;}
 
         string get_color(){return this->color;}
 
@@ -70,17 +76,31 @@ class Player
 
         vector<int> get_settlement_vertices(){return this->settlement_vertices;}
 
-        bool can_build_road();
+        bool can_build_road() const;
 
-        bool can_build_settlement();
+        bool can_build_settlement() const ;
 
-        bool can_build_city();
+        bool can_build_city() const;
+
+        bool can_buy_dev() const;
 
         void add_resources(string resource, int units);
 
-        bool check_resource(const string resource){this->resources[resource] > 0;}\
+        int get_resource_num(const string resource) const {return this->resources.at(resource);}
 
-        bool check_dev(const string dev);
+        bool check_resource(const string resource) const {return this->resources.at(resource) > 0;}
+
+        bool check_dev(const string dev) const ;
+
+        void show_hand () const;
+
+        int get_activated_knights() const {return this->activated_knights;}
+
+        int get_num_of_resources() const {return this->num_of_resources;}
+
+        void activate_knight();
+
+        void activate_victory();
 
         friend ostream& operator<<(ostream& os, const Player& player);
 

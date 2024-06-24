@@ -26,6 +26,10 @@ class GameLogic
 
         size_t current_player_id = 0;
 
+        size_t greatest_army_id;
+
+        int winner_id = -1;
+
         shared_ptr<Board> board;
 
         shared_ptr<Deck> deck;
@@ -34,19 +38,47 @@ class GameLogic
 
         GameLogic();
 
-        int roll_dice() const;
+        void init();
+
+        bool can_build_settlement_init(const int vertex_id);     
+
+        void roll_dice();
+
+        void give_out_resources(const int roll_result);
+
+        void lose_resources();
 
         void settlements() const;
 
-        bool build_road(const string edge_id);
+        bool can_build_road(const string edge_id);
 
-        bool build_settlement(const int vertex_id);
+        void build_road(const string edge_id);
+
+        bool can_build_settlement(const int vertex_id);
+
+        void build_settlement(const int vertex_id);
 
         bool improve_settlement(const int vertex_id);
 
-        bool trade_resources(const int other_player, const string give, const string take);
+        bool trade_resources(const size_t other_player, const string give, const string take);
 
-        bool trade_dev_cards(const int other_player, const string give, const string take);
+        bool trade_dev_cards(const size_t other_player, const string give, const string take);
+
+        bool buy_dev_card();
+
+        void show_dev_cards() const;
+
+        void play_knight();
+
+        void play_victory();
+
+        bool play_year_of_plenty(const string first_resource, const string second_resource);
+
+        bool play_monopoly(const string resource);
+
+        bool play_road_building(const string first_edge, const string second_edge);
+
+        bool play_dev(const string card);
 
         void display_help() const;
 
@@ -61,6 +93,8 @@ class GameLogic
         }
 
     public:
+
+        int get_winner_id() const {return this->winner_id;}
 
         static shared_ptr<GameLogic> get_instance()
         {

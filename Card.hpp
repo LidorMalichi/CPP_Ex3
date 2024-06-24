@@ -13,9 +13,23 @@ class DevCard
 {
     public:
 
-        virtual string development_type() const = 0;
+        string development_type() const {return this->type;}
+
+        bool is_played() const {return this->played;}
+
+        void play() {this->played = true;}
 
         virtual ~DevCard() = default;
+
+    protected:
+
+        DevCard(const string& type) : type(type){played = false;}
+
+    private:
+
+        string type;
+
+        bool played;
 };
 
 class PromoCard : public DevCard
@@ -26,22 +40,24 @@ class PromoCard : public DevCard
 
     public:
 
-        PromoCard(const string promo_type):promo_type(promo_type){};
-
-        string development_type() const override {return PROMO;}
+        PromoCard(const string& promo_type) : DevCard(PROMO), promo_type(promo_type){};
 
         string get_promo_type(){return promo_type;}
 }; 
 
 class Knight : public DevCard
 {
-    string development_type() const override {return KNIGHT;}
+    public:
+
+        Knight() : DevCard(KNIGHT){}
 };
 
 
 class Victory : public DevCard
 {
-    string development_type() const override {return VICTORY;}
+    public:
+
+        Victory() : DevCard(VICTORY){}
 };
 
 class Deck
@@ -67,6 +83,8 @@ class Deck
             }
             return deck;
         }
+
+        int size() const {return cards.size();}
 
         unique_ptr<DevCard> draw_card()
         {

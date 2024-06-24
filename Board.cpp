@@ -104,6 +104,11 @@ Board::Board()
 
 }
 
+const list<shared_ptr<Hexagon>> &Board::operator[](const int index) const
+{
+    return this->layout.at(index);
+}
+
 ostream& operator<<(ostream& os, const Board& board)
 {
     os << "\n";

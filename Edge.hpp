@@ -27,11 +27,15 @@ class Edge{
 
         static unordered_map<string, shared_ptr<Edge>> edge_map;
 
+        static vector<string> edge_ids;
+
         Edge(const string id, const string form);
 
     public:
 
         static shared_ptr<Edge> get_edge(const string id, const string form = "");
+
+        static bool valid_edge(const string edge_id);
 
         string get_id(){return this->id;}
 

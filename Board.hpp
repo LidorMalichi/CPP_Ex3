@@ -38,6 +38,8 @@ class Board
             return instance;
         }
         
+        const list<shared_ptr<Hexagon>>& operator[](const int index) const;
+
         friend ostream& operator<<(ostream& os, const Board& board);
 };
 
