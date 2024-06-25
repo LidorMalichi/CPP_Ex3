@@ -768,7 +768,8 @@ void GameLogic::display_help() const
             << "play-dev <card (Victory, Monopoly <resource>, Year-of-plenty <resource1,resource2>, "
             << "Road-building <vertex1#-vertex2#,vertex1#-vertex2#>, knight)>\n"
             << "end\n"
-            << "help\n";
+            << "help\n"
+            << "close\n";
 }
 
 void GameLogic::next_turn()
