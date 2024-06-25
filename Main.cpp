@@ -15,6 +15,11 @@ int main()
         std::cout << ">";
         getline(cin, command);
 
+        if(command == "close")
+        {
+            return 0;
+        }
+
         game_logic.executeCommand(command);
     }
     std::cout << "The winner is player " << game_logic.get_winner_id() << "\n";
