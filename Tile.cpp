@@ -1,5 +1,7 @@
 #include "Tile.hpp"
 
+// The factory static method to make the lands shareable
+
 shared_ptr<Tile> TileFactory::get_tile(const string tile)
 {
     

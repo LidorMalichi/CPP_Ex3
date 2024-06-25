@@ -12,30 +12,41 @@
 
 using namespace std;
 
+// A class that represnts a player in the game
 class Player
 {
     private:
 
+        // Player's id
         size_t id;
 
+        // Player's color
         string color;
 
+        // Player's points
         int points;
 
+        // Player's army
         int activated_knights;
 
+        // Player's total number of resources
         int num_of_resources;
 
+        // Player's resource map
         unordered_map<string, int> resources;
 
+        // Player's development cards 
         vector<unique_ptr<DevCard>> hand;
 
+        // Player's settlements locations
         vector<int> settlement_vertices;
 
+        // Players vector
         static vector<shared_ptr<Player>> players;
 
         Player(size_t id, string color, int points) : id(id), color(color), points(points)
         {
+            // Initialize resources for the init
             resources["Wood"] = 4;
             resources["Bricks"] = 4;
             resources["Wool"] = 2;
@@ -47,14 +58,17 @@ class Player
 
     public:
 
+        // Get player from players vector
         static shared_ptr<Player> get_player(size_t id, string color)
         {
+            // A struct that gets access to private constructor 
             struct MakeSharedEnabler : public Player {
                 MakeSharedEnabler(size_t id, string color) : Player(id, color, 0){}
             };
 
-            if(!players[id])
+            if(players[id] == nullptr)
             {
+                // Create a player if it doesn't exist
                 players[id] = make_shared<MakeSharedEnabler>(id, color);
             }
             return players[id];
@@ -76,12 +90,16 @@ class Player
 
         vector<int> get_settlement_vertices(){return this->settlement_vertices;}
 
+        // Checks if the player has enough resources to build a road
         bool can_build_road() const;
 
+        // Checks if the player has enough resources to build a settlement
         bool can_build_settlement() const ;
 
+        // Checks if the player has enough resources to build a city
         bool can_build_city() const;
 
+        // Checks if the player has enough resources to buy a development card
         bool can_buy_dev() const;
 
         void add_resources(string resource, int units);
@@ -102,6 +120,7 @@ class Player
 
         void activate_victory();
 
+        // print operator
         friend ostream& operator<<(ostream& os, const Player& player);
 
 };

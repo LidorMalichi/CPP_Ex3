@@ -5,10 +5,12 @@
 #include <vector>
 #include <memory>
 #include "General.hpp"
+#include <algorithm>
+#include <random>
 
 using namespace std;
 
-
+// A  base class that represents a development card
 class DevCard
 {
     public:
@@ -32,6 +34,7 @@ class DevCard
         bool played;
 };
 
+// A class that represents a promotion card
 class PromoCard : public DevCard
 {
     private:
@@ -45,6 +48,7 @@ class PromoCard : public DevCard
         string get_promo_type(){return promo_type;}
 }; 
 
+// A class that represents a knight card
 class Knight : public DevCard
 {
     public:
@@ -52,7 +56,7 @@ class Knight : public DevCard
         Knight() : DevCard(KNIGHT){}
 };
 
-
+// A class that represents a victory card
 class Victory : public DevCard
 {
     public:
@@ -60,9 +64,12 @@ class Victory : public DevCard
         Victory() : DevCard(VICTORY){}
 };
 
+// A class that represents the development cards deck
 class Deck
 {
     private:
+
+        // A singelton instance
         static shared_ptr<Deck> deck;
 
         vector<unique_ptr<DevCard>> cards;
@@ -74,18 +81,22 @@ class Deck
 
         static shared_ptr<Deck> get_deck()
         {
+            // A struct that gets access to private constructor
             struct MakeSharedEnabler : public Deck {
                 MakeSharedEnabler() : Deck(){}
             };
             if(!deck)
             {
+                // Create a deck if it doesn't exist
                 deck = make_shared<MakeSharedEnabler>();
             }
             return deck;
         }
 
+        // the size of the deck
         int size() const {return cards.size();}
 
+        // Draws a card
         unique_ptr<DevCard> draw_card()
         {
             unique_ptr<DevCard> card = move(cards.back());

@@ -8,11 +8,12 @@ Board::Board()
     vector<int> hex_ids = {1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 13, 14, 15, 16, 17, 18, 19};
     random_device rd;
     mt19937 g(rd());
+    // Shuffle the board layout
     shuffle(board_ids.begin(), board_ids.end(), g);
     shuffle(hex_ids.begin(), hex_ids.end(), g);
 
 
-    
+    // create forest hexs
     for(size_t i = 0; i <= 3; i++)
     {
         shared_ptr<Tile> forest_ptr = TileFactory::get_tile("Forest");
@@ -29,7 +30,7 @@ Board::Board()
             this->layout[board_ids[i]].push_back(hex);
         }
     }
-
+    // create hills hexs
     for(size_t i = 4; i <= 6; i++)
     {
         shared_ptr<Tile> hills_ptr = TileFactory::get_tile("Hills");
@@ -46,7 +47,7 @@ Board::Board()
             this->layout[board_ids[i]].push_back(hex);
         }
     }
-
+    // create pasture hexs
     for(size_t i = 7; i <= 10; i++)
     {
         shared_ptr<Tile> pasture_ptr = TileFactory::get_tile("Pasture");
@@ -63,7 +64,7 @@ Board::Board()
             this->layout[board_ids[i]].push_back(hex);
         }
     }
-
+    // create fields hexs
     for(size_t i = 11; i <= 14; i++)
     {
         shared_ptr<Tile> fields_ptr = TileFactory::get_tile("Fields");
@@ -80,7 +81,7 @@ Board::Board()
             this->layout[board_ids[i]].push_back(hex);
         }
     }
-
+    // create mountains hexs
     for(size_t i = 15; i <= 17; i++)
     {
         shared_ptr<Tile> mountains_ptr = TileFactory::get_tile("Mountains");
@@ -97,7 +98,7 @@ Board::Board()
             this->layout[board_ids[i]].push_back(hex);
         }
     }
-
+    // create desert hex
     shared_ptr<Tile> desert_ptr = TileFactory::get_tile("Desert");
     shared_ptr<Hexagon> hex = Hexagon::get_hexagon(10, 7, desert_ptr);
     this->layout[7] = {hex};
@@ -330,6 +331,6 @@ ostream& operator<<(ostream& os, const Board& board)
     {
         os << *Vertex::get_vertex(i) << "            "; 
     }
-    os << "\n";    
+    os << "\n\n";    
     return os; 
 }

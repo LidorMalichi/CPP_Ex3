@@ -4,13 +4,17 @@ unordered_map<int, shared_ptr<Vertex>> Vertex::vertex_map;
 
 shared_ptr<Vertex> Vertex::get_vertex(int id)
 {
+    // Checks if requested id is valid
     if(id >= 1 && id <= 54){
+
+        // A struct that gets access to private constructor
         struct MakeSharedEnabler : public Vertex {
             MakeSharedEnabler(int id) : Vertex(id){}
         };
 
         if(vertex_map.find(id) == vertex_map.end())
         {
+            // Create a vertex if it doesn't exist
             vertex_map[id] = make_shared<MakeSharedEnabler>(id);
         }
         return vertex_map[id];
@@ -39,6 +43,6 @@ int Vertex::improve_settlement(int player_id)
 
 ostream& operator<<(ostream& os, const Vertex& vertex)
 { 
-    os << vertex.color << vertex.description;
+    os << vertex.color << vertex.description << RESET;
     return os;
 }

@@ -237,14 +237,16 @@ Hexagon::Hexagon(int id, int board_id, shared_ptr<Tile> tile):id(id), board_id(b
 
 shared_ptr<Hexagon> Hexagon::get_hexagon(int id, int board_id, shared_ptr<Tile> tile)
 {
-    
+    // checks if the hex id is valid   
     if(id >= 1 && id <= 19){
+        // A struct that gets access to private constructor
         struct MakeSharedEnabler : public Hexagon {
             MakeSharedEnabler(int id, int board_id, shared_ptr<Tile> tile) : Hexagon(id, board_id, tile){}
         };
 
         if(hexagon_map.find(id) == hexagon_map.end())
         {
+            // Create a hex if it doesn't exist
             hexagon_map[id] = make_shared<MakeSharedEnabler>(id, board_id, tile);
         }
         return hexagon_map[id];

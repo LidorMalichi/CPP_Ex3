@@ -5,11 +5,14 @@
 
 using namespace std;
 
+// A base class that represents a building
 class Building
 {
     private:
 
+        // Player id
         size_t player_id;
+        // Building name
         string name;
 
     public:
@@ -22,10 +25,12 @@ class Building
 
 };
 
+// Base class for reprsenting an abode = Settlement/City
 class Abode : public Building
 {
     private:
 
+        // Victopry pints give by specific abode
         int victory_points;
 
     public:
@@ -35,6 +40,7 @@ class Abode : public Building
         int get_victory_points(){return victory_points;}
 };
 
+// Settlement class
 class Settlement : public Abode
 {
     public:
@@ -42,6 +48,7 @@ class Settlement : public Abode
         Settlement(size_t player_id) : Abode(player_id, "Settlement", 1){};
 };
 
+// City class
 class City : public Abode
 {
     public:
@@ -49,6 +56,7 @@ class City : public Abode
         City(size_t player_id) : Abode(player_id, "City", 2){};
 };
 
+// Road class
 class Road : public Building
 {
     public:

@@ -20,95 +20,122 @@ GameLogic::GameLogic()
 
 void GameLogic::init()
 {
-    std::cout << this->board;
+    std::cout << *this->board;
     
     
     for(size_t i = 0; i < players.size(); i++)
     {
         current_player_id = i;
-        std::cout << "Player " << current_player_id << " choose your first settlement based on the vertex#\n";
+        std::cout << players[current_player_id]->get_color() << "Player " << current_player_id << RESET << " choose your first settlement based on the vertex#\n";
         string answer;
         bool valid_input = false;
         do {
-
+            std::cout << ">";
             getline(cin, answer);
-            try {
-
+            
+            if(is_only_digits(answer))
+            {
                 int vertex_id = std::stoi(answer);
                 
                 if(can_build_settlement_init(vertex_id))
                 {
                     build_settlement(vertex_id);
-                    std::cout << "Player " << current_player_id << " built a settlement on vertex " << vertex_id << "\n";
+                    std::cout << players[current_player_id]->get_color() << "Player " << current_player_id << RESET << " built a settlement on vertex " << vertex_id << "\n";
                     valid_input = true;
+                    std::cout << *this->board;
+                
+                }
+                else
+                {
+                    std::cout << "Invalid vertex. Please enter a valid vertex number between 1 and 54.\n";
                 }
             }
-
-            catch (const exception& e){
+            else
+            {
                 std::cout << "Invalid vertex. Please enter a valid vertex number between 1 and 54.\n";
             }
 
         } while(!valid_input);
 
-        std::cout << "Player " << current_player_id << " choose your first road based on the edge <vertex1#-vertex2#>\n";
+        std::cout << players[current_player_id]->get_color() << "Player " << current_player_id << RESET << " choose your first road based on the edge <vertex1#-vertex2#>\n";
         valid_input = false;
         do {
-
+            std::cout << ">";
             getline(cin, answer);
             
             if(can_build_road(answer))
             {
                 build_road(answer);
-                std::cout << "Player " << current_player_id << " built a road on edge " << answer << "\n";
+                std::cout << players[current_player_id]->get_color() << "Player " << current_player_id << RESET << " built a road on edge " << answer << "\n";
                 valid_input = true;
+                std::cout << *this->board;
             }
         } while(!valid_input);
     }
     
-    for(size_t i = players.size(); i >= 0; i--)
+    for(size_t i = players.size(); i > 0; i--)
     {
-        current_player_id = i;
-        std::cout << "Player " << current_player_id << " choose your second settlement based on the vertex#\n";
+        current_player_id = i-1;
+        std::cout << players[current_player_id]->get_color() << "Player " << current_player_id << RESET << " choose your second settlement based on the vertex#\n";
         string answer;
         bool valid_input = false;
         do {
-
+            std::cout << ">";
             getline(cin, answer);
-            try {
 
+            if(is_only_digits(answer))
+            {
                 int vertex_id = std::stoi(answer);
                 
                 if(can_build_settlement_init(vertex_id))
                 {
                     build_settlement(vertex_id);
-                    std::cout << "Player " << current_player_id << " built a settlement on vertex " << vertex_id << "\n";
+                    std::cout << players[current_player_id]->get_color() << "Player " << current_player_id << RESET << " built a settlement on vertex " << vertex_id << "\n";
                     valid_input = true;
+                    std::cout << *this->board;
+                }
+                else
+                {
+                    std::cout << "Invalid vertex. Please enter a valid vertex number between 1 and 54.\n";
                 }
             }
-
-            catch (const exception& e){
+            else
+            {
                 std::cout << "Invalid vertex. Please enter a valid vertex number between 1 and 54.\n";
             }
 
         } while(!valid_input);
 
-        std::cout << "Player " << current_player_id << " choose your second road based on the edge <vertex1#-vertex2#>\n";
+        std::cout << players[current_player_id]->get_color() << "Player " << current_player_id << RESET << " choose your second road based on the edge <vertex1#-vertex2#>\n";
         valid_input = false;
         do {
-
+            std::cout << ">";
             getline(cin, answer);
             
             if(can_build_road(answer))
             {
                 build_road(answer);
-                std::cout << "Player " << current_player_id << " built a road on edge " << answer << "\n";
+                std::cout << players[current_player_id]->get_color() << "Player " << current_player_id << RESET << " built a road on edge " << answer << "\n";
                 valid_input = true;
+                std::cout << *this->board;
             }
         } while(!valid_input);
     }
 
-    cout << "Player " << current_player_id << " starts the game\n";
+    std::cout << players[current_player_id]->get_color() << "Player " << current_player_id << RESET << " starts the game\n";
 
+}
+
+bool GameLogic::is_only_digits(const string &str)
+{
+    for(size_t i = 0; i < str.size(); i++)
+    {
+        if(!isdigit(str[i]))
+        {
+            return false;
+        }
+    }
+    return true;
 }
 
 bool GameLogic::can_build_settlement_init(const int vertex_id)
@@ -118,7 +145,7 @@ bool GameLogic::can_build_settlement_init(const int vertex_id)
 
     if(vertex->has_settlement())
     {
-        std::cout << "A settlement has already been built here";
+        std::cout << "A settlement has already been built here\n";
         return false;
     }
     else
@@ -178,12 +205,12 @@ void GameLogic::lose_resources()
         if(players[i]->get_num_of_resources() > 7)
         {
             int resources_to_lose = players[i]->get_num_of_resources() / 2;
-            std::cout << "Player " << current_player_id << " has to lose " << resources_to_lose << " resources\n";
+            std::cout << players[i]->get_color() << "Player " << i << RESET << " has to lose " << resources_to_lose << " resources\n";
 
             for(int j = 0; j < resources_to_lose; j++)
             {
                 std::cout << *players[i];
-                std::cout << "Player " << current_player_id << " choose a resource to lose\n";
+                std::cout << players[i]->get_color() << "Player " << i << RESET << " choose a resource to lose\n";
 
                 string answer;
                 bool valid_input = false;
@@ -195,9 +222,9 @@ void GameLogic::lose_resources()
                     {
                         std::cout << "Resource is not valid, Use: Wood, Bricks, Wool, Grain, Ore\n";
                     }
-                    else if (players[i]->check_resource(answer))
+                    else if (!players[i]->check_resource(answer))
                     {
-                        std::cout << "Player " << current_player_id << " doesn't have " << answer << "\n";
+                        std::cout << players[i]->get_color() << "Player " << i << RESET << " doesn't have " << answer << "\n";
                         
                     }
                     else
@@ -213,15 +240,15 @@ void GameLogic::lose_resources()
 
 void GameLogic::settlements() const
 {
-    vector<int> player_settlements = (*current_player()).get_settlement_vertices();
+    vector<int> player_settlements = players[current_player_id]->get_settlement_vertices();
 
     if(player_settlements.size() == 0)
     {
-        std::cout << "Player " << (*current_player()).get_id() << " has no settlements\n";
+        std::cout << current_color << "Player " << current_player_id << RESET << " has no settlements\n";
     }
     else
     {
-        std::cout << "Player " << (*current_player()).get_id() << " has:\n";
+        std::cout << current_color << "Player " << current_player_id << RESET << " has:\n";
         for(int vertex_id : player_settlements)
         {
             if((*Vertex::get_vertex(vertex_id)).get_settlement().get_name() == "Settlement")
@@ -290,6 +317,7 @@ bool GameLogic::can_build_road(const string edge_id)
             }
         }
     }
+    std::cout << "There is no road  or settlement of " << players[current_player_id]->get_color() << "player " << players[current_player_id]->get_id() << RESET << " leading to this edge\n";
     return false;
 }
 
@@ -306,16 +334,20 @@ void GameLogic::build_road(const string edge_id)
 bool GameLogic::can_build_settlement(const int vertex_id)
 {
     shared_ptr<Vertex> vertex = Vertex::get_vertex(vertex_id);
-    if(vertex == nullptr){return false;}
+    if(vertex == nullptr)
+    {
+        std::cout << "vertex is not valid\n";
+        return false;
+    }
 
     if(vertex->has_settlement())
     {
-        std::cout << "A settlement has already been built here";
+        std::cout << "A settlement has already been built here\n";
         return false;
     }
     else if(!(*current_player()).can_build_settlement())
     {
-        std::cout << "You don't have enough resources to build a settlement";
+        std::cout << "You don't have enough resources to build a settlement\n";
         return false;
     }
     else
@@ -346,7 +378,7 @@ bool GameLogic::can_build_settlement(const int vertex_id)
                 }
             }
         }
-        std::cout << "There is no road of player " << player.get_id() << " leading to this vertex\n";
+        std::cout << "There is no road of " << player.get_color() << "player " << player.get_id() << RESET << " leading to this vertex\n";
         return false;
     }
 }
@@ -418,31 +450,28 @@ bool GameLogic::trade_resources(const size_t other_player, const string give, co
     }
     else
     {
-        std::cout << "Do player " << other_player << " agrees to the trade? Y/n\n";
-
-        string other_answer;
-        getline(cin ,other_answer);
+        std::cout << "Do " << players[other_player]->get_color() << "player " << other_player << RESET << " agrees to the trade? Y/n\n";
         
-        if(other_answer == "Y")
-        {
-            player.add_resources(give, -1);
-            player.add_resources(take, 1);
-            players[other_player]->add_resources(give, 1);
-            players[other_player]->add_resources(take, -1);
-            return true;
-        }
-        else if("n")
-        {
-            std::cout << "Player " << other_player << " refuses the trade\n";
-            return false;
-        }
-        else
-        {
-            std::cout << "Trade failed";
-            return false;
+        while(true){
+            string other_answer;
+            getline(cin ,other_answer);
+        
+            if(other_answer == "Y")
+            {
+                player.add_resources(give, -1);
+                player.add_resources(take, 1);
+                players[other_player]->add_resources(give, 1);
+                players[other_player]->add_resources(take, -1);
+                return true;
+            }
+            else if(other_answer == "n")
+            {
+                std::cout << players[other_player]->get_color() << "Player " << other_player << RESET << " refuses the trade\n";
+                return false;
+            }
+            std::cout << "Invalid answer . Use: Y/n\n";
         }
     }
-
 }
 
 bool GameLogic::trade_dev_cards(const size_t other_player, const string give, const string take)
@@ -460,26 +489,24 @@ bool GameLogic::trade_dev_cards(const size_t other_player, const string give, co
     }
     else
     {
-        std::cout << "Do player " << other_player << " agrees to the trade? Y/n\n";
+        std::cout << "Do " << players[other_player]->get_color() << "player " << other_player << RESET << " agrees to the trade? Y/n\n";
 
-        string other_answer;
-        getline(cin ,other_answer);
+        while(true){
+            string other_answer;
+            getline(cin ,other_answer);
         
-        if(other_answer == "Y")
-        {
-            player.add_development_card(players[other_player]->remove_dev_card(take));
-            players[other_player]->add_development_card(player.remove_dev_card(give));
-            return true;
-        }
-        else if("n")
-        {
-            std::cout << "Player " << other_player << " refuses the trade\n";
-            return false;
-        }
-        else
-        {
-            std::cout << "Trade failed";
-            return false;
+            if(other_answer == "Y")
+            {
+                player.add_development_card(players[other_player]->remove_dev_card(take));
+                players[other_player]->add_development_card(player.remove_dev_card(give));
+                return true;
+            }
+            else if(other_answer == "n")
+            {
+                std::cout << players[other_player]->get_color() << "Player " << other_player << RESET << " refuses the trade\n";
+                return false;
+            }
+            std::cout << "Invalid answer . Use: Y/n\n";
         }
     }
 }
@@ -503,6 +530,7 @@ bool GameLogic::buy_dev_card()
     player.add_resources("Ore", -1);
     player.add_resources("Wool", -1);
     player.add_resources("Grain", -1);
+    std::cout << player.get_color() << "Player " << player.get_id() << RESET << " bought a development card\n";
     return true;
 }
 
@@ -520,7 +548,7 @@ void GameLogic::play_knight()
         {
             greatest_army_id = current_player_id;
             players[current_player_id]->add_points(2);
-            std::cout << "Player " << current_player_id << " has the greatest army now!\n";
+            std::cout << current_color << "Player " << current_player_id << RESET <<" has the greatest army now!\n";
         }
         else if (greatest_army_id != current_player_id)
         {
@@ -529,7 +557,7 @@ void GameLogic::play_knight()
                 players[greatest_army_id]->add_points(-2);
                 players[current_player_id]->add_points(2);
                 greatest_army_id = current_player_id;
-                std::cout << "Player " << current_player_id << " has the greatest army now!\n";
+                std::cout << current_color << "Player " << current_player_id << RESET << " has the greatest army now!\n";
             }
         }
     }
@@ -590,6 +618,7 @@ bool GameLogic::play_road_building(const string first_edge, const string second_
         {
             build_road(first_edge);
             build_road(second_edge);
+            players[current_player_id]->remove_dev_card(ROAD_BUILDING);
             return true;
         }
         else
@@ -640,7 +669,7 @@ bool GameLogic::play_dev(const string card)
             string promo = card.substr(0, space_pos);
             string dependencies = card.substr(space_pos + 1);
 
-            if ("Year-of-plenty" == promo)
+            if (YEAR_OF_PLENTY == promo)
             {
                 if(players[current_player_id]->check_dev(YEAR_OF_PLENTY))
                 {
@@ -684,7 +713,7 @@ bool GameLogic::play_dev(const string card)
                     return false;
                 }
             }
-            else if ("Road-building" == promo)
+            else if (ROAD_BUILDING == promo)
             {
                 if(players[current_player_id]->check_dev(ROAD_BUILDING))
                 {
@@ -745,7 +774,8 @@ void GameLogic::display_help() const
 void GameLogic::next_turn()
 {
     current_player_id = (current_player_id + 1) % players.size();
-    std::cout << "Player " << current_player_id << "'s turn.\n";
+    current_color = players[current_player_id]->get_color();
+    std::cout << current_color << "Player " << current_player_id << RESET << "'s turn.\n";
     std::cout << *players[current_player_id];
 }
 
@@ -767,13 +797,22 @@ void GameLogic::executeCommand(const string& command)
             display_help();
     }
     else if (command == "board") {
-        cout << *board;
+        std::cout << *this->board;
     } 
     else if (command == "roll") {
-        roll_dice();
+        if(!rolled)
+        {
+            roll_dice();
+            rolled = true;
+        }
+        else
+        {
+            std::cout << current_color << "Player " << current_player_id << RESET << " already rolled the dices\n";
+        }
+        
     } 
     else if (command == "status") {
-        cout << *current_player();
+        std::cout << *current_player();
     }
     else if (command == "settlements") {
         settlements();
@@ -783,36 +822,19 @@ void GameLogic::executeCommand(const string& command)
         if(space_pos != -1)
         {
             string edge_id = command.substr(space_pos + 1);
-            size_t dash_pos = edge_id.find('-');
 
-            if (dash_pos != std::string::npos) {
-                string vertex1Str = edge_id.substr(0, dash_pos);
-                string vertex2Str = edge_id.substr(dash_pos + 1);
-
-                try {
-                    int vertex1 = std::stoi(vertex1Str);
-                    int vertex2 = std::stoi(vertex2Str);
-
-                    // Build the road between the vertices
-                    if(can_build_road(edge_id)) 
-                    {
-                        build_road(edge_id);
-                        std::cout << "Player " << (*current_player()).get_id() << "built a road on edge " << edge_id << "\n";
-                    } 
-                    else 
-                    {
-                        std::cout << "Failed to build a road on edge " << edge_id << "\n";
-                    }
-                } 
-                catch (const std::invalid_argument& e) 
-                {
-                    std::cout << "Invalid vertex numbers.\n";
-                }
-            }
+            // Build the road between the vertices
+            if(can_build_road(edge_id)) 
+            {
+                build_road(edge_id);
+                std::cout << current_color << "Player " << (*current_player()).get_id() << RESET << "  built a road on edge " << edge_id << "\n";
+            } 
             else 
             {
-                std::cout << "Invalid command format. Use: build-road <vertex1#-vertex2#>\n";
+                std::cout << "Failed to build a road on edge " << edge_id << "\n";
             }
+                
+                
         }
         else
         {
@@ -827,15 +849,16 @@ void GameLogic::executeCommand(const string& command)
         {
             string vertex = command.substr(space_pos + 1);
             
-
-            try {
+            if(is_only_digits(vertex))
+            {
+            
                 int vertex_id = std::stoi(vertex);
 
                 // Build the settlement on the vertex
                 if (can_build_settlement(vertex_id)) 
                 {
                     build_settlement(vertex_id);
-                    std::cout << "Player " << (*current_player()).get_id() << " built a settlement on vertex " << vertex_id << "\n";
+                    std::cout << current_color << "Player " << (*current_player()).get_id() << RESET << " built a settlement on vertex " << vertex_id << "\n";
                     if(10 <= players[current_player_id]->get_points())
                     {
                         winner_id = current_player_id;
@@ -845,11 +868,13 @@ void GameLogic::executeCommand(const string& command)
                 {
                     std::cout << "Failed to build a settlement on vertex " << vertex_id<< "\n";
                 }
-            } 
-            catch (const std::invalid_argument& e) 
-            {
-                std::cout << "Invalid vertex number.\n";
+            
             }
+            else
+            {
+                std::cout << "Invalid vertex id\n";
+            }
+            
         }
         else
         {
@@ -865,13 +890,14 @@ void GameLogic::executeCommand(const string& command)
             string vertex = command.substr(space_pos + 1);
             
 
-            try {
+            if(is_only_digits(vertex))
+            {
                 int vertex_id = std::stoi(vertex);
 
                 // Build the settlement on the vertex
                 if (improve_settlement(vertex_id)) 
                 {
-                    std::cout << "Player " << (*current_player()).get_id() << "built a city on vertex " << vertex_id << "\n";
+                    std::cout << current_color << "Player " << (*current_player()).get_id() << "built a city on vertex " << vertex_id << "\n";
                     if(10 <= players[current_player_id]->get_points())
                     {
                         winner_id = current_player_id;
@@ -882,9 +908,9 @@ void GameLogic::executeCommand(const string& command)
                     std::cout << "Failed to build a city on vertex " << vertex_id<< "\n";
                 }
             } 
-            catch (const std::invalid_argument& e) 
+            else 
             {
-                std::cout << "Invalid vertex number.\n";
+                std::cout << "Invalid vertex. Please enter a valid vertex number between 1 and 54.\n";
             }
         }
         else
@@ -892,7 +918,7 @@ void GameLogic::executeCommand(const string& command)
             std::cout << "Invalid command format. Use: improve <vertex#>\n";
         }
     } 
-    else if (command.find("trade") == 0) {
+    else if (command.find("trade ") == 0) {
 
         size_t space_pos = command.find(' ');
         if(space_pos != -1)
@@ -915,9 +941,9 @@ void GameLogic::executeCommand(const string& command)
 
                     if(space_pos != -1)
                     {
-                        if (trade_resources(other_id, resources.substr(0, space_pos), resources.substr(0, space_pos))) 
+                        if (trade_resources(other_id, resources.substr(0, space_pos), resources.substr(space_pos + 1))) 
                         {
-                            std::cout << "Trade successful between player " << current_player_id << " and " << other_id<< ".\n";
+                            std::cout << "Trade successful between " << current_color << "player " << current_player_id << RESET << " and " << players[other_id]->get_color() << "player " << other_id << RESET << ".\n";
                         } 
                     }
                     else
@@ -965,9 +991,9 @@ void GameLogic::executeCommand(const string& command)
 
                     if(space_pos != -1)
                     {
-                        if (trade_dev_cards(other_id, devs.substr(0, space_pos), devs.substr(0, space_pos))) 
+                        if (trade_dev_cards(other_id, devs.substr(0, space_pos), devs.substr(space_pos + 1))) 
                         {
-                            std::cout << "Trade successful between player " << current_player_id << " and " << other_id<< ".\n";
+                            std::cout << "Trade successful between " << current_color << "player " << current_player_id << RESET << " and " << players[other_id]->get_color() << "player " << other_id << RESET << ".\n";
                         } 
                     }
                     else
@@ -1011,6 +1037,7 @@ void GameLogic::executeCommand(const string& command)
                 {
                         winner_id = current_player_id;
                 }
+                rolled = false;
                 next_turn();
             }
         }
@@ -1021,6 +1048,7 @@ void GameLogic::executeCommand(const string& command)
         }
     }  
     else if (command == "end") {
+        rolled = false;
         next_turn();
     } 
     else {

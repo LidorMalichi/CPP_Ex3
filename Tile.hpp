@@ -9,6 +9,7 @@
 
 using namespace std;
 
+// Abstract tile class that represnts a land
 class Tile{
 
     public:
@@ -19,6 +20,7 @@ class Tile{
 
 };
 
+// A singelton template class so the lands can be shared across hexs and save memory
 template <typename T>
 class SingletonTile : public Tile {
 public:
@@ -37,6 +39,9 @@ public:
 protected:
     SingletonTile() {}
 };
+
+
+// Core land classes that gives resources
 
 class Forest: public SingletonTile<Forest>{
 
@@ -146,6 +151,8 @@ class Desert: public SingletonTile<Desert>{
     private:
         Desert(){}
 };
+
+// A tile factory class inorder to complete the flyweight design pattern with the singelton design pattern
 
 class TileFactory {
 

@@ -1,6 +1,6 @@
 #include "Player.hpp"
 
-vector<shared_ptr<Player>> Player::players;
+vector<shared_ptr<Player>> Player::players(3);
 
 ostream &operator<<(ostream &os, const Player &player)
 {
@@ -85,11 +85,11 @@ void Player::show_hand() const
 {
     if(this-> hand.size() == 0)
     {
-        cout << "Player " << this->id << "doesn't have any development cards\n ";
+        cout << color << "Player " << this->id << RESET << " doesn't have any development cards\n";
         return;
     }
 
-    cout << "Player " << this->id << "'s development cards:\n";
+    cout << color << "Player " << this->id << RESET << "'s development cards:\n";
     for(size_t i = 0; i < hand.size(); i++)
     {
         if("Promo" != hand[i]->development_type())

@@ -12,7 +12,7 @@ int main()
 
     while(game_logic.get_winner_id() == -1)
     {
-        std::cout << ">\n";
+        std::cout << ">";
         getline(cin, command);
 
         game_logic.executeCommand(command);
