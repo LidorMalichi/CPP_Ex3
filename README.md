@@ -22,6 +22,7 @@ This repository contains a C++ catan game
             Road-building <vertex1#-vertex2#,vertex1#-vertex2#>, knight)>**: Plays given dev card.
   * **end**: Ends player's turn.
   * **help**: Prints valid commands to the terminal.
+  * **close**: Shuts the game down
 
 ## Usage
 
